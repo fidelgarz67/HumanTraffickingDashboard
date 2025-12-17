@@ -1,0 +1,147 @@
+[
+  {
+    "nation": "US",
+    "coordinates": {
+      "lat": 37.0902,
+      "lng": -95.7129
+    },
+    "top_5_features": {
+      "0": {
+        "feature": "gender_Female",
+        "importance": 0.06507822869664118
+      },
+      "1": {
+        "feature": "gender_Male",
+        "importance": 0.03951550869146751
+      },
+      "2": {
+        "feature": "meansOfControlTakesEarnings",
+        "importance": 0.033299691746032686
+      },
+      "3": {
+        "feature": "citizenship_US",
+        "importance": 0.02470689035803479
+      },
+      "4": {
+        "feature": "meansOfControlPsychologicalAbuse",
+        "importance": 0.02294855101879779
+      }
+    }
+  },
+  {
+    "nation": "RU",
+    "coordinates": {
+      "lat": 61.524,
+      "lng": 105.3188
+    },
+    "top_5_features": {
+      "0": {
+        "feature": "gender_Female",
+        "importance": 0.11795216509271667
+      },
+      "1": {
+        "feature": "gender_Male",
+        "importance": 0.09208099931616513
+      },
+      "2": {
+        "feature": "citizenship_UA",
+        "importance": 0.07895819404112402
+      },
+      "3": {
+        "feature": "CountryOfExploitation_RU",
+        "importance": 0.07228257713578136
+      },
+      "4": {
+        "feature": "meansOfControlTakesEarnings",
+        "importance": 0.05781832214217137
+      }
+    }
+  },
+  {
+    "nation": "PH",
+    "coordinates": {
+      "lat": 12.8797,
+      "lng": 121.774
+    },
+    "top_5_features": {
+      "0": {
+        "feature": "CountryOfExploitation_PH",
+        "importance": 0.1308739674091339
+      },
+      "1": {
+        "feature": "citizenship_PH",
+        "importance": 0.07067768782377243
+      },
+      "2": {
+        "feature": "gender_Female",
+        "importance": 0.05812662847340107
+      },
+      "3": {
+        "feature": "majorityStatus",
+        "importance": 0.03923187382519245
+      },
+      "4": {
+        "feature": "gender_Male",
+        "importance": 0.029314726907759905
+      }
+    }
+  },
+  {
+    "nation": "ID",
+    "coordinates": {
+      "lat": -0.7893,
+      "lng": 113.9213
+    },
+    "top_5_features": {
+      "0": {
+        "feature": "CountryOfExploitation_ID",
+        "importance": 0.1534564026872661
+      },
+      "1": {
+        "feature": "gender_Male",
+        "importance": 0.12118956500857911
+      },
+      "2": {
+        "feature": "gender_Female",
+        "importance": 0.10911752212321363
+      },
+      "3": {
+        "feature": "citizenship_MM",
+        "importance": 0.06803701882475043
+      },
+      "4": {
+        "feature": "citizenship_Unknown",
+        "importance": 0.0671274045279603
+      }
+    }
+  },
+  {
+    "nation": "KH",
+    "coordinates": {
+      "lat": 12.5657,
+      "lng": 104.991
+    },
+    "top_5_features": {
+      "0": {
+        "feature": "RecruiterRelationship_Unknown",
+        "importance": 0.06296224344026195
+      },
+      "1": {
+        "feature": "CountryOfExploitation_KH",
+        "importance": 0.058692380862840274
+      },
+      "2": {
+        "feature": "majorityStatusAtExploit",
+        "importance": 0.02831163833431065
+      },
+      "3": {
+        "feature": "citizenship_KH",
+        "importance": 0.0249232999061544
+      },
+      "4": {
+        "feature": "majorityStatus",
+        "importance": 0.02165568004055026
+      }
+    }
+  }
+]
