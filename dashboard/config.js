@@ -5,7 +5,9 @@ const AWS_CONFIG = {
     accessKeyId: 'YOUR_ACCESS_KEY_ID',
     secretAccessKey: 'YOUR_SECRET_ACCESS_KEY',
     bucketName: 'your-bucket-name',
-    dataFilePath: 'trafficking-risk-data.json'
+    dataFilePath: 'trafficking-risk-data.json',
+    // Local results path (relative to dashboard/index.html)
+    localResultsPath: '../results/country_shap_summary.json'
 };
 
 // Simple demo credentials for local testing only

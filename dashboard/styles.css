@@ -284,24 +284,19 @@ body {
     font-size: 18px;
 }
 
-/* ===== DATA DISPLAY ===== */
-.data-display {
-    background: white;
-    padding: 30px;
-    margin: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+/* ===== REGION INFO ===== */
+.region-info {
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    color: #444;
+    font-size: 14px;
 }
 
-.data-display h2 {
-    margin-bottom: 20px;
-    color: #333;
-}
+.region-info p { margin-bottom: 8px; }
 
-#resultsContent {
-    color: #555;
-    line-height: 1.8;
-}
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {

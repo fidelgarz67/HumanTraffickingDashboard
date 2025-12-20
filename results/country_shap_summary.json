@@ -1,6 +1,6 @@
 [
   {
-    "nation": "US",
+    "nation": "US - United States",
     "coordinates": {
       "lat": 37.0902,
       "lng": -95.7129
@@ -29,7 +29,7 @@
     }
   },
   {
-    "nation": "RU",
+    "nation": "RU - Russia",
     "coordinates": {
       "lat": 61.524,
       "lng": 105.3188
@@ -58,7 +58,7 @@
     }
   },
   {
-    "nation": "PH",
+    "nation": "PH - Philippines",
     "coordinates": {
       "lat": 12.8797,
       "lng": 121.774
@@ -87,7 +87,7 @@
     }
   },
   {
-    "nation": "ID",
+    "nation": "ID - Indonesia",
     "coordinates": {
       "lat": -0.7893,
       "lng": 113.9213
@@ -116,7 +116,7 @@
     }
   },
   {
-    "nation": "KH",
+    "nation": "KH - Cambodia",
     "coordinates": {
       "lat": 12.5657,
       "lng": 104.991

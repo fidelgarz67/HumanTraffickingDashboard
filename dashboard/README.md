@@ -9,12 +9,14 @@ This copy of the project lives in the `dashboard/` subfolder so you can open tha
 
 ### Start a simple Python server
 
+If you'd like the dashboard to fetch the local results file (`results/country_shap_summary.json`), serve from the project root (one level above `dashboard/`) so the `/results` folder is reachable. For a quick start you can run:
+
 ```bash
-cd "/Users/fidel/Library/Mobile Documents/com~apple~CloudDocs/School/Graduate/DSC580/Milestone3/dashboard"
+# from project root (one level above 'dashboard')
 python3 -m http.server 8000
 ```
 
-Then open `http://localhost:8000` in your browser.
+Then open `http://localhost:8000/dashboard/` in your browser.
 
 ## Files in this folder
 
@@ -23,6 +25,7 @@ Then open `http://localhost:8000` in your browser.
 - `app.js` — application JS
 - `config.js` — placeholder AWS config and demo credentials
 - `trafficking-risk-data.json` — sample data (also used as local fallback)
+- Local results (project root) — `results/country_shap_summary.json` will be used automatically if present; search the dashboard by country code (e.g., `US`, `PH`)
 
 ## Default credentials (for demo)
 

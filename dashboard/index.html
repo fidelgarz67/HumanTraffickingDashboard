@@ -38,15 +38,18 @@
             <div class="left-panel">
                 <div class="search-section">
                     <h2>Select Region</h2>
-                    <input type="text" id="regionInput" placeholder="Los Angeles, CA" class="region-input">
-                    <button id="searchBtn" class="btn-search">Search</button>
+                    <select id="regionSelect" class="region-input">
+                        <option value="">Select a region</option>
+                    </select>
+                    <small class="hint">Choose from available regions (country codes from the results file).</small>
+                    <button id="searchBtn" class="btn-search" disabled>Show</button>
                 </div>
 
                 <div class="features-section">
                     <h2>High-Risk Features</h2>
+                    <div id="regionInfo" class="region-info" style="display: none;"></div>
                     <div id="featuresList" class="features-list">
-                        <!-- Features will be loaded from S3 -->
-                        <p class="loading">Loading features...</p>
+                        <!-- Features will be populated after a search -->
                     </div>
                 </div>
             </div>
@@ -60,10 +63,7 @@
             </div>
         </div>
 
-        <div id="dataDisplay" class="data-display" style="display: none;">
-            <h2>Search Results</h2>
-            <div id="resultsContent"></div>
-        </div>
+
     </div>
 
     <!-- Optional: include AWS SDK if you plan to load from S3 in-browser -->
