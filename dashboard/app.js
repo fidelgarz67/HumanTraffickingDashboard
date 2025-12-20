@@ -42,6 +42,9 @@ class TraffickingRiskApp {
         document.getElementById('loginContainer').style.display = 'none';
         document.getElementById('dashboardContainer').style.display = 'flex';
         
+        // Initialize map now that the dashboard is visible
+        this.initMap();
+
         // Load data from S3 (if configured), otherwise fallback
         this.loadDataFromS3();
     }
@@ -172,6 +175,38 @@ class TraffickingRiskApp {
         this.populateRegionOptions();
     }
 
+    // ===== MAP HANDLING (Leaflet) =====
+    initMap() {
+        if (this.map) return; // already initialized
+
+        // Create Leaflet map inside the placeholder
+        try {
+            this.map = L.map('mapPlaceholder', { zoomControl: true }).setView([20, 0], 2);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(this.map);
+            this.mapMarker = null;
+        } catch (err) {
+            console.warn('Leaflet not available or failed to initialize.', err);
+        }
+    }
+
+    updateMap(coords, label) {
+        if (!coords || typeof coords.lat !== 'number' || typeof coords.lng !== 'number') return;
+        this.initMap();
+        if (!this.map) return;
+
+        const latlng = [coords.lat, coords.lng];
+        // Smoothly set view
+        this.map.setView(latlng, 4, { animate: true });
+
+        if (this.mapMarker) {
+            try { this.map.removeLayer(this.mapMarker); } catch(e) { /* ignore */ }
+        }
+
+        this.mapMarker = L.marker(latlng).addTo(this.map).bindPopup(label || '').openPopup();
+    }
+
     findRegion(region) {
         if (!this.dashboardData || !this.dashboardData.regions) return null;
         const query = region.toLowerCase();
@@ -288,6 +323,9 @@ class TraffickingRiskApp {
 
             // Ensure the dropdown shows the selected region
             if (selectEl && selectEl.value !== regionKey) selectEl.value = regionKey;
+
+            // Ensure map updates to the selected region coordinates
+            this.updateMap(regionData.coordinates, regionKey);
 
             // Populate features with region-specific features if available
             if (regionData.top_5_features && Array.isArray(regionData.top_5_features)) {
