@@ -9,14 +9,14 @@ This copy of the project lives in the `dashboard/` subfolder so you can open tha
 
 ### Start a simple Python server
 
-If you'd like the dashboard to fetch the local results file (`results/country_shap_summary.json`), serve from the project root (one level above `dashboard/`) so the `/results` folder is reachable. For a quick start you can run:
+If you'd like the dashboard to fetch the local results file (`dashboard/results/country_shap_summary.json`), you can serve the `dashboard/` folder directly. For a quick start run:
 
 ```bash
-# from project root (one level above 'dashboard')
+# from inside the 'dashboard' folder
 python3 -m http.server 8000
 ```
 
-Then open `http://localhost:8000/dashboard/` in your browser.
+Then open `http://localhost:8000/` in your browser.
 
 ## Files in this folder
 
