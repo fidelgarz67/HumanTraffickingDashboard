@@ -117,7 +117,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+    /* create a stacking context so dropdowns inside header can appear above page content like the map */
+    position: relative;
+    z-index: 10010;
+} 
 
 .header h1 {
     font-size: 28px;
@@ -137,6 +140,29 @@ body {
 
 .btn-logout:hover {
     background: #d32f2f;
+}
+
+/* Header controls container */
+.header-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Export button - similar styling to logout but different accent */
+.btn-export {
+    padding: 8px 16px;
+    background: #4a73b8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.btn-export:hover {
+    background: #3a5a95;
 }
 
 .content {
@@ -166,6 +192,25 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
 }
+
+/* Export menu styles */
+.export-dropdown { position: relative; display: inline-block; }
+.export-menu {
+    position: absolute;
+    top: 36px;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    min-width: 160px;
+    z-index: 10011;
+    padding: 6px 6px;
+}
+
+.export-item { display:block; width:100%; padding:8px 10px; border:none; background:transparent; text-align:left; cursor:pointer; }
+.export-item[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+.export-item:hover { background:#f5f7fb; }
 
 .search-section h2 {
     font-size: 18px;
@@ -211,6 +256,26 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Toast notification */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 11000;
+}
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .features-section h2 {

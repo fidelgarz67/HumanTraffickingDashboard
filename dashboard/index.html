@@ -33,7 +33,19 @@
     <div id="dashboardContainer" class="dashboard-container" style="display: none;">
         <div class="header">
             <h1>Trafficking Risk Identifier</h1>
-            <button id="logoutBtn" class="btn-logout">Logout</button>
+            <div class="header-controls">
+                <div class="export-dropdown">
+                    <button id="exportBtn" class="btn-export">Export ▾</button>
+                    <div id="exportMenu" class="export-menu" style="display:none;">
+                        <button class="export-item" data-action="current" data-format="csv" aria-disabled="true">Export Current (CSV)</button>
+                        <button class="export-item" data-action="current" data-format="json" aria-disabled="true">Export Current (JSON)</button>
+                        <div class="export-sep"></div>
+                        <button class="export-item" data-action="all" data-format="csv">Export All (CSV)</button>
+                        <button class="export-item" data-action="all" data-format="json">Export All (JSON)</button>
+                    </div>
+                </div>
+                <button id="logoutBtn" class="btn-logout">Logout</button>
+            </div>
         </div>
 
         <div class="content">
@@ -70,6 +82,9 @@
 
     <!-- Optional: include AWS SDK if you plan to load from S3 in-browser -->
     <!-- <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1491.0.min.js"></script> -->
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast" style="display:none;"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="config.js"></script>

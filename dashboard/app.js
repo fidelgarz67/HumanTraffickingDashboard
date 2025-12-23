@@ -5,6 +5,7 @@ class TraffickingRiskApp {
     constructor() {
         this.dashboardData = null;
         this.currentRegion = null;
+        this.toastTimeout = null;
         this.initializeEventListeners();
     }
 
@@ -17,6 +18,61 @@ class TraffickingRiskApp {
         document.getElementById('logoutBtn').addEventListener('click', () => this.handleLogout());
 
         // Note: region selection is a dropdown (populated after data loads)
+
+        // Export dropdown handlers
+        const exportBtn = document.getElementById('exportBtn');
+        const exportMenu = document.getElementById('exportMenu');
+
+        if (exportBtn && exportMenu) {
+            exportBtn.addEventListener('click', (e) => {
+                exportMenu.style.display = (exportMenu.style.display === 'block') ? 'none' : 'block';
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                const root = document.querySelector('.export-dropdown');
+                if (!root) return;
+                if (!root.contains(e.target)) exportMenu.style.display = 'none';
+            });
+
+            exportMenu.addEventListener('click', (e) => {
+                const item = e.target.closest('.export-item');
+                if (!item) return;
+                const action = item.getAttribute('data-action');
+                const format = item.getAttribute('data-format');
+
+                if (action === 'current') {
+                    if (!this.currentRegion) { alert('Please select a region first.'); exportMenu.style.display = 'none'; return; }
+                    this.exportCurrent(format);
+                    exportMenu.style.display = 'none';
+                    return;
+                }
+
+                if (action === 'all') {
+                    this.exportAll(format);
+                    exportMenu.style.display = 'none';
+                    return;
+                }
+
+                exportMenu.style.display = 'none';
+            });
+        }
+
+        // When select changes, update current region and enable export
+        const selectEl = document.getElementById('regionSelect');
+        if (selectEl) {
+            selectEl.addEventListener('change', (e) => {
+                const val = e.target.value;
+                if (!val) {
+                    this.currentRegion = null;
+                    this.setExportEnabled(false);
+                    return;
+                }
+                this.currentRegion = val;
+                this.displaySearchResults(val);
+                this.setExportEnabled(true);
+            });
+        }
     }
 
     // ===== LOGIN HANDLING =====
@@ -276,6 +332,7 @@ class TraffickingRiskApp {
 
         selectEl.disabled = false;
         document.getElementById('searchBtn').disabled = false;
+        this.setExportEnabled(false);
     }
 
     // ===== SEARCH HANDLING =====
@@ -292,10 +349,107 @@ class TraffickingRiskApp {
         this.displaySearchResults(searchRegion);
     }
 
+    // ===== EXPORT HELPERS =====
+    setExportEnabled(enabled) {
+        const items = document.querySelectorAll('.export-item[data-action="current"]');
+        items.forEach((it) => {
+            if (enabled) {
+                it.setAttribute('aria-disabled', 'false');
+                it.removeAttribute('disabled');
+            } else {
+                it.setAttribute('aria-disabled', 'true');
+                it.setAttribute('disabled', 'true');
+            }
+        });
+    }
+
+    // Small toast helper to show export confirmations
+    showToast(message, duration = 3000) {
+        const el = document.getElementById('toast');
+        if (!el) return;
+        el.textContent = message;
+        el.style.display = 'block';
+        // allow CSS transition to animate
+        setTimeout(() => el.classList.add('show'), 10);
+        if (this.toastTimeout) clearTimeout(this.toastTimeout);
+        this.toastTimeout = setTimeout(() => {
+            el.classList.remove('show');
+            setTimeout(() => { el.style.display = 'none'; }, 250);
+            this.toastTimeout = null;
+        }, duration);
+    }
+
+    exportCurrent(format) {
+        const regionKey = this.currentRegion;
+        if (!regionKey) { alert('No region selected'); return; }
+        const regionData = this.dashboardData && this.dashboardData.regions && this.dashboardData.regions[regionKey];
+        if (!regionData) { alert('No data available for selected region'); return; }
+
+        if (format === 'json') {
+            const payload = { nation: regionKey, ...regionData };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = `${regionKey}_data.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+            this.showToast('Exported current region as JSON');
+            return;
+        }
+
+        if (format === 'csv') {
+            const rows = [];
+            rows.push(['nation','lat','lng','feature','importance']);
+            if (regionData.top_5_features && Array.isArray(regionData.top_5_features)) {
+                regionData.top_5_features.forEach((f) => rows.push([regionKey, regionData.coordinates?.lat || '', regionData.coordinates?.lng || '', f.feature || '', f.importance || '']));
+            } else if (regionData.top_5_features && typeof regionData.top_5_features === 'object') {
+                Object.values(regionData.top_5_features).forEach((f) => rows.push([regionKey, regionData.coordinates?.lat || '', regionData.coordinates?.lng || '', f.feature || '', f.importance || '']));
+            } else {
+                rows.push([regionKey, regionData.coordinates?.lat || '', regionData.coordinates?.lng || '', regionData.description || '', '']);
+            }
+            const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `${regionKey}_data.csv`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+            this.showToast('Exported current region as CSV');
+            return;
+        }
+
+        alert('Unknown format: '+format);
+    }
+
+    exportAll(format) {
+        const allRegions = this.dashboardData && this.dashboardData.regions ? this.dashboardData.regions : {};
+
+        if (format === 'json') {
+            const payload = Object.entries(allRegions).map(([nation, data]) => ({ nation, ...data }));
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `all_regions_data.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+            this.showToast('Exported all regions as JSON');
+            return;
+        }
+
+        if (format === 'csv') {
+            const rows = [];
+            rows.push(['nation','lat','lng','feature','importance']);
+            Object.entries(allRegions).forEach(([nation, regionData]) => {
+                if (regionData.top_5_features && Array.isArray(regionData.top_5_features)) {
+                    regionData.top_5_features.forEach((f) => rows.push([nation, regionData.coordinates?.lat || '', regionData.coordinates?.lng || '', f.feature || '', f.importance || '']));
+                } else if (regionData.top_5_features && typeof regionData.top_5_features === 'object') {
+                    Object.values(regionData.top_5_features).forEach((f) => rows.push([nation, regionData.coordinates?.lat || '', regionData.coordinates?.lng || '', f.feature || '', f.importance || '']));
+                } else {
+                    rows.push([nation, regionData.coordinates?.lat || '', regionData.coordinates?.lng || '', regionData.description || '', '']);
+                }
+            });
+            const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `all_regions_data.csv`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+            this.showToast('Exported all regions as CSV');
+            return;
+        }
+
+        alert('Unknown format: '+format);
+    }
+
     displaySearchResults(region) {
         const regionInfoEl = document.getElementById('regionInfo');
         const featuresListEl = document.getElementById('featuresList');
         const selectEl = document.getElementById('regionSelect');
+        const exportMenu = document.getElementById('exportMenu');
 
         let regionKey = region;
         let regionData = null;
@@ -327,6 +481,9 @@ class TraffickingRiskApp {
             // Ensure map updates to the selected region coordinates
             this.updateMap(regionData.coordinates, regionKey);
 
+            // Enable export controls
+            this.setExportEnabled(true);
+
             // Populate features with region-specific features if available
             if (regionData.top_5_features && Array.isArray(regionData.top_5_features)) {
                 this.populateFeatures(regionData.top_5_features);
@@ -340,6 +497,7 @@ class TraffickingRiskApp {
             regionInfoEl.style.display = 'block';
             regionInfoEl.innerHTML = `<p>No specific data found for "${region}". Try a country code like "US" or "PH".</p>`;
             featuresListEl.innerHTML = '';
+            this.setExportEnabled(false);
         }
     }
 }
