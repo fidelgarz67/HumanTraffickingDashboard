@@ -76,19 +76,37 @@ class TraffickingRiskApp {
     }
 
     // ===== LOGIN HANDLING =====
-    handleLogin(e) {
+    async handleLogin(e) {
         e.preventDefault();
-        
+
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const errorMsg = document.getElementById('loginError');
-        
-        // Simple client-side validation (in production, use backend authentication)
-        if (username === VALID_CREDENTIALS.username && password === VALID_CREDENTIALS.password) {
-            errorMsg.classList.remove('show');
-            this.loginSuccess();
-        } else {
-            errorMsg.textContent = 'Invalid username or password';
+
+        // Require an external validator (validate.js) to perform authentication.
+        // If not present, show a clear error and do not attempt any client-side fallback.
+        const validator = (typeof window !== 'undefined' && typeof window.validateCredentials === 'function')
+            ? window.validateCredentials
+            : null;
+
+        if (!validator) {
+            errorMsg.textContent = 'Authentication not configured. Please include validate.js to authenticate.';
+            errorMsg.classList.add('show');
+            return;
+        }
+
+        try {
+            const isValid = await validator(username, password);
+            if (isValid) {
+                errorMsg.classList.remove('show');
+                this.loginSuccess();
+            } else {
+                errorMsg.textContent = 'Invalid username or password';
+                errorMsg.classList.add('show');
+            }
+        } catch (err) {
+            console.error('Authentication error', err);
+            errorMsg.textContent = 'Authentication error. Please try again.';
             errorMsg.classList.add('show');
         }
     }
