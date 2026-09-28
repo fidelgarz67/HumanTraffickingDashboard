@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="How the Trafficking Risk Identifier model and country-level explanations are prepared.">
+    <title>Methodology | Trafficking Risk Identifier</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="header">
+            <h1>Trafficking Risk Identifier</h1>
+        </header>
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="index.html">Dashboard</a>
+            <a href="methodology.html" aria-current="page">Methodology</a>
+            <a href="guide.html">Dashboard Guide</a>
+            <a href="about.html">About</a>
+        </nav>
+
+        <main class="info-content">
+            <section class="info-hero">
+                <h2>Methodology</h2>
+                <p>This page summarizes how the current model and the country-level feature summaries are produced. It is a research prototype, and its outputs should be interpreted with care.</p>
+            </section>
+
+            <section class="info-card">
+                <h3>Data and preparation</h3>
+                <p>The project notebook uses the Global K-Anon dataset and, in the current modeling workflow, filters records to five countries of exploitation: the United States, Russia, the Philippines, Indonesia, and Cambodia. The analysis focuses on demographic, recruitment, exploitation-context, and means-of-control fields.</p>
+                <p>Missing binary indicators are filled with zero, missing categories are labeled “Unknown,” and categorical values are encoded for the model. Records without a known sexual-exploitation label are excluded. These choices are part of the current project implementation and may change as the work develops.</p>
+            </section>
+
+            <section class="info-card">
+                <h3>Model and explanation</h3>
+                <p>The notebook trains a feed-forward neural network to classify the dataset’s <code>isSexualExploit</code> label. It uses a stratified 80/20 train-test split, class weighting, and a validation subset during training. The current network has hidden layers of 128, 64, and 32 units with dropout, and is trained for 10 epochs.</p>
+                <p>SHAP GradientExplainer is applied to test records. For each country, the dashboard data contains the five features with the largest mean absolute SHAP values among test records associated with that country. These values summarize how strongly features contribute to model output in this analysis; they do not show whether a feature raises or lowers an individual prediction.</p>
+            </section>
+
+            <section class="info-card info-callout">
+                <h3>Important interpretation note</h3>
+                <p>The feature summaries are explanations of model behavior, not evidence that a feature causes trafficking or that a country has a particular prevalence. The dashboard’s Low/Medium/High label is currently assigned in the front end by summing the displayed feature-importance values (below 0.15: Low; 0.15–0.30: Medium; 0.30 or higher: High). It is a presentation heuristic—not a calibrated model probability, a measure of population-level risk, or a validated trafficking-risk score.</p>
+                <p>This prototype is not designed for individual assessment, operational decisions, or allocation of enforcement or services. Dataset coverage, reporting bias, and model limitations should be considered before drawing conclusions.</p>
+            </section>
+
+            <p><a class="info-link" href="guide.html">See what the dashboard displays →</a></p>
+        </main>
+    </div>
+</body>
+</html>

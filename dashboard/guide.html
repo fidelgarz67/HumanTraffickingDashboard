@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A guide to the map, country summaries, feature explanations, and exports on the dashboard.">
+    <title>Dashboard Guide | Trafficking Risk Identifier</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="header">
+            <h1>Trafficking Risk Identifier</h1>
+        </header>
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="index.html">Dashboard</a>
+            <a href="methodology.html">Methodology</a>
+            <a href="guide.html" aria-current="page">Dashboard Guide</a>
+            <a href="about.html">About</a>
+        </nav>
+
+        <main class="info-content">
+            <section class="info-hero">
+                <h2>What the dashboard displays</h2>
+                <p>The dashboard is an interface for exploring the project’s currently available country-level model summaries—not a live reporting system or an individual risk assessment.</p>
+            </section>
+
+            <section class="info-card">
+                <h3>Explore a country</h3>
+                <ol>
+                    <li>Choose a country from the region menu. The available options depend on the results data currently loaded.</li>
+                    <li>The map marks the selected country using its representative coordinates. The marker is for geographic reference, not a location-level estimate.</li>
+                    <li>The high-risk-features panel lists the most influential features in the current summary for that country. The percentages shown are scaled feature-importance values, not probabilities or percentages of people affected.</li>
+                    <li>The Low/Medium/High label is a simple front-end grouping of the listed importance values. See <a class="info-link" href="methodology.html">Methodology</a> for the thresholds and limitations.</li>
+                </ol>
+            </section>
+
+            <section class="info-card">
+                <h3>Export data</h3>
+                <p>Use the Export menu to download the available summaries as CSV or JSON, either for the selected country or for all countries in the loaded results. Exports contain the data available to the dashboard and should be interpreted with the same limitations as the on-screen summaries.</p>
+            </section>
+
+            <section class="info-card info-callout">
+                <h3>Coverage and limitations</h3>
+                <p>The current model notebook analyzes five countries, and the interface only displays countries included in its loaded data. The dashboard does not provide live incident reporting, case-level details, or validated estimates of trafficking prevalence. Model explanations describe patterns learned from the available data; they are not proof of causation.</p>
+            </section>
+
+            <p><a class="info-link" href="index.html">← Return to the dashboard</a></p>
+        </main>
+    </div>
+</body>
+</html>

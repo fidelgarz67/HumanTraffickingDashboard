@@ -21,6 +21,9 @@ Then open `http://localhost:8000/` in your browser.
 ## Files in this folder
 
 - `index.html` — main HTML
+- `methodology.html` — overview of the current model workflow and interpretation
+- `guide.html` — explanation of the dashboard displays and exports
+- `about.html` — project background and ongoing-development context
 - `styles.css` — CSS
 - `app.js` — application JS
 - `config.js` — placeholder AWS config and demo credentials
