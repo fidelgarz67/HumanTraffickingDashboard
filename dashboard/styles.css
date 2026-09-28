@@ -175,6 +175,98 @@ body {
     gap: 30px;
 }
 
+.site-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    padding: 12px 20px;
+    background: #fff;
+    border-top: 1px solid #eee;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.site-nav a {
+    color: #3a5a95;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+    text-decoration: underline;
+}
+
+.site-nav a[aria-current="page"] {
+    color: #333;
+}
+
+.info-content {
+    width: min(100% - 40px, 960px);
+    margin: 36px auto 56px;
+}
+
+.info-hero {
+    margin-bottom: 24px;
+}
+
+.info-hero h2 {
+    margin-bottom: 10px;
+    color: #263b5d;
+    font-size: clamp(28px, 4vw, 40px);
+}
+
+.info-hero p {
+    max-width: 720px;
+    color: #555;
+    font-size: 17px;
+    line-height: 1.65;
+}
+
+.info-card {
+    margin-bottom: 18px;
+    padding: 24px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.info-card h3 {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 19px;
+}
+
+.info-card p,
+.info-card li {
+    color: #505050;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.info-card p + p {
+    margin-top: 10px;
+}
+
+.info-card ul,
+.info-card ol {
+    padding-left: 22px;
+}
+
+.info-card li + li {
+    margin-top: 6px;
+}
+
+.info-callout {
+    border-left: 4px solid #4a73b8;
+}
+
+.info-link {
+    color: #315b9a;
+    font-weight: 600;
+}
+
 .left-panel {
     flex: 0 0 350px;
 }
@@ -365,6 +457,14 @@ body {
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
+    .info-content {
+        margin-top: 24px;
+    }
+
+    .info-card {
+        padding: 20px;
+    }
+
     .content {
         flex-direction: column;
     }
