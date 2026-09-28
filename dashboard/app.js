@@ -10,12 +10,8 @@ class TraffickingRiskApp {
     }
 
     initializeEventListeners() {
-        // Login form
-        document.getElementById('loginForm').addEventListener('submit', (e) => this.handleLogin(e));
-        
         // Dashboard buttons
         document.getElementById('searchBtn').addEventListener('click', () => this.handleSearch());
-        document.getElementById('logoutBtn').addEventListener('click', () => this.handleLogout());
 
         // Note: region selection is a dropdown (populated after data loads)
 
@@ -75,44 +71,11 @@ class TraffickingRiskApp {
         }
     }
 
-    // ===== LOGIN HANDLING =====
-    handleLogin(e) {
-        e.preventDefault();
-        
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const errorMsg = document.getElementById('loginError');
-        
-        // Simple client-side validation (in production, use backend authentication)
-        if (username === VALID_CREDENTIALS.username && password === VALID_CREDENTIALS.password) {
-            errorMsg.classList.remove('show');
-            this.loginSuccess();
-        } else {
-            errorMsg.textContent = 'Invalid username or password';
-            errorMsg.classList.add('show');
-        }
-    }
-
-    loginSuccess() {
-        // Hide login, show dashboard
-        document.getElementById('loginContainer').style.display = 'none';
+    // ===== APP BOOTSTRAP =====
+    bootDashboard() {
         document.getElementById('dashboardContainer').style.display = 'flex';
-        
-        // Initialize map now that the dashboard is visible
         this.initMap();
-
-        // Load data from S3 (if configured), otherwise fallback
         this.loadDataFromS3();
-    }
-
-    handleLogout() {
-        // Clear form
-        document.getElementById('loginForm').reset();
-        document.getElementById('loginError').classList.remove('show');
-        
-        // Hide dashboard, show login
-        document.getElementById('dashboardContainer').style.display = 'none';
-        document.getElementById('loginContainer').style.display = 'flex';
     }
 
     // ===== S3 DATA LOADING =====
@@ -504,5 +467,6 @@ class TraffickingRiskApp {
 
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new TraffickingRiskApp();
+    const app = new TraffickingRiskApp();
+    app.bootDashboard();
 });
