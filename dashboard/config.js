@@ -10,7 +10,6 @@ const AWS_CONFIG = {
     bucketName: 'your-bucket-name',
     dataFilePath: 'trafficking-risk-data.json',
     // Local results path (relative to dashboard/index.html)
-    localResultsPath: 'results/country_shap_summary.json', 
-    CREDENTIALS_TABLE_NAME: 'human-trafficking-auth'
+    localResultsPath: 'results/country_shap_summary.json'
 };
 

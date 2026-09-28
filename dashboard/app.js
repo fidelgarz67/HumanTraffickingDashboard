@@ -10,12 +10,8 @@ class TraffickingRiskApp {
     }
 
     initializeEventListeners() {
-        // Login form
-        document.getElementById('loginForm').addEventListener('submit', (e) => this.handleLogin(e));
-        
         // Dashboard buttons
         document.getElementById('searchBtn').addEventListener('click', () => this.handleSearch());
-        document.getElementById('logoutBtn').addEventListener('click', () => this.handleLogout());
 
         // Note: region selection is a dropdown (populated after data loads)
 
@@ -75,62 +71,11 @@ class TraffickingRiskApp {
         }
     }
 
-    // ===== LOGIN HANDLING =====
-    async handleLogin(e) {
-        e.preventDefault();
-
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const errorMsg = document.getElementById('loginError');
-
-        // Require an external validator (validate.js) to perform authentication.
-        // If not present, show a clear error and do not attempt any client-side fallback.
-        const validator = (typeof window !== 'undefined' && typeof window.validateCredentials === 'function')
-            ? window.validateCredentials
-            : null;
-
-        if (!validator) {
-            errorMsg.textContent = 'Authentication not configured. Please include validate.js to authenticate.';
-            errorMsg.classList.add('show');
-            return;
-        }
-
-        try {
-            const isValid = await validator(username, password);
-            if (isValid) {
-                errorMsg.classList.remove('show');
-                this.loginSuccess();
-            } else {
-                errorMsg.textContent = 'Invalid username or password';
-                errorMsg.classList.add('show');
-            }
-        } catch (err) {
-            console.error('Authentication error', err);
-            errorMsg.textContent = 'Authentication error. Please try again.';
-            errorMsg.classList.add('show');
-        }
-    }
-
-    loginSuccess() {
-        // Hide login, show dashboard
-        document.getElementById('loginContainer').style.display = 'none';
+    // ===== APP BOOTSTRAP =====
+    bootDashboard() {
         document.getElementById('dashboardContainer').style.display = 'flex';
-        
-        // Initialize map now that the dashboard is visible
         this.initMap();
-
-        // Load data from S3 (if configured), otherwise fallback
         this.loadDataFromS3();
-    }
-
-    handleLogout() {
-        // Clear form
-        document.getElementById('loginForm').reset();
-        document.getElementById('loginError').classList.remove('show');
-        
-        // Hide dashboard, show login
-        document.getElementById('dashboardContainer').style.display = 'none';
-        document.getElementById('loginContainer').style.display = 'flex';
     }
 
     // ===== S3 DATA LOADING =====
@@ -522,5 +467,6 @@ class TraffickingRiskApp {
 
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new TraffickingRiskApp();
+    const app = new TraffickingRiskApp();
+    app.bootDashboard();
 });
